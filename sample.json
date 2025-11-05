@@ -1,0 +1,58 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "profile": {
+        "age": 30,
+        "address": {
+          "street": "123 Main St",
+          "city": "New York",
+          "zipcode": "10001"
+        },
+        "preferences": [
+          "dark_mode",
+          "notifications",
+          "auto_save"
+        ]
+      },
+      "active": true
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "email": "jane@example.com",
+      "profile": {
+        "age": 25,
+        "address": {
+          "street": "456 Oak Ave",
+          "city": "Los Angeles",
+          "zipcode": "90210"
+        },
+        "preferences": [
+          "light_mode",
+          "email_alerts"
+        ]
+      },
+      "active": false
+    }
+  ],
+  "settings": {
+    "theme": "auto",
+    "language": "en",
+    "features": {
+      "beta_testing": true,
+      "analytics": false,
+      "experimental": [
+        "new_ui",
+        "advanced_search"
+      ]
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "created": "2024-01-01",
+    "updated": "2024-11-05"
+  }
+}
