@@ -38,7 +38,7 @@ function buildLineMap(jsonText) {
                 let key = '';
                 pos++; col++;
                 while (pos < text.length && text[pos] !== '"') {
-                    key += text[pos++];
+                    key += text[pos];
                     pos++; col++;
                 }
                 pos++; col++;
@@ -50,8 +50,9 @@ function buildLineMap(jsonText) {
             }
             if (text[pos] === '}') { pos++; col++; }
         }
-            else if (text[pos] === '[') {
-            pos++; col++;
+        else if (text[pos] === '[') {
+            pos++;
+            col++;
             skipWhitespace();
             let idx = 0;
             let first = true;
@@ -96,7 +97,7 @@ function findPathForLine(ranges, lineNumber) {
     // Find the deepest path that includes the line
     let best = null;
     for (const r of ranges) {
-        if (r.startLine <= lineNumber && r.endLine <= endLine) {
+        if (r.startLine <= lineNumber && r.endLine >= lineNumber) {
             if (!best || r.path.length > best.path.length) {
                 best = r;
             }
@@ -126,8 +127,8 @@ function parsePath(pathStr) {
     return parts;
 }
 
-function findLineForPath(ranges, pathArr) {
-    const targetPath = parsePath(pathArr);
+function findLineForPath(ranges, pathStr) {
+    const targetPath = parsePath(pathStr);
     for (const r of ranges) {
         if (JSON.stringify(r.path) === JSON.stringify(targetPath)) {
             return { startLine: r.startLine, endLine: r.endLine };
@@ -138,8 +139,8 @@ function findLineForPath(ranges, pathArr) {
 
 // Main
 if (require.main === module) {
-    const [,, jsonFile, lineStr] = process.argv;
-    if (!jsonFile || !lineStr) {
+    const [,, jsonFile, input] = process.argv;
+    if (!jsonFile || !input) {
         console.log('Usage:');
         console.log('  node json-path-tool.js <json-file> <lineNumber>');
         console.log('  node json-path-tool.js <json-file> <json.path.to.value>');
