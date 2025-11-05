@@ -1,5 +1,4 @@
 const fs = require('fs');
-const path = require('path');
 
 // Helper to recursively walk through the JSON object and record line ranges for each value
 function buildLineMap(jsonText) {
@@ -137,34 +136,17 @@ function findLineForPath(ranges, pathStr) {
     return null;
 }
 
-// Main
-if (require.main === module) {
-    const [,, jsonFile, input] = process.argv;
-    if (!jsonFile || !input) {
-        console.log('Usage:');
-        console.log('  node json-path-tool.js <json-file> <lineNumber>');
-        console.log('  node json-path-tool.js <json-file> <json.path.to.value>');
-        process.exit(1);
-    }
-
-    const absPath = path.resolve(jsonFile);
-    const jsonText = fs.readFileSync(absPath, 'utf-8');
-    const ranges = buildLineMap(jsonText);
-
-    if (/^\d+$/.test(input)) {
-        const lineNumber = parseInt(input, 10);
-        const pathArr = findPathForLine(ranges, lineNumber);
-        if (pathArr) {
-            console.log(formatPath(pathArr));
-        } else {
-            console.log('No path found for line', lineNumber);
-        }
-    } else {
-        const result = findLineForPath(ranges, input);
-        if (result) {
-            console.log(`Path found at lines ${result.startLine} to ${result.endLine}`);
-        } else {
-            console.log('No lines found for path', input);
-        }
-    }
+function loadJsonFile(filePath) {
+    const path = require('path');
+    const absPath = path.resolve(filePath);
+    return fs.readFileSync(absPath, 'utf-8');
 }
+
+module.exports = {
+    buildLineMap,
+    findPathForLine,
+    formatPath,
+    parsePath,
+    findLineForPath,
+    loadJsonFile
+};
